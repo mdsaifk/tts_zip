@@ -57,4 +57,4 @@ if __name__ == '__main__':
     parser.add_argument('--max_len', type=int, help='Global step to restore checkpoint', default=400)
 
     args = parser.parse_args()
-    synthesis("Transformer model is so faster than and anyone who is residing on the earth",args)
+    synthesis("Transformer model is so faster than and anyone who is residing on the earthCommit your changes and push them to GitHub as usual. Git LFS will automatically upload the large files to the Git LFS server and replace them with pointers in your Git repository.Once you have set up Git LFS for your repository, you should be able to push your large files without encountering the file size limit error.",args)
