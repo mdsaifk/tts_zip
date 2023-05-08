@@ -57,4 +57,4 @@ if __name__ == '__main__':
     parser.add_argument('--max_len', type=int, help='Global step to restore checkpoint', default=400)
 
     args = parser.parse_args()
-    synthesis("Transformer model is so fast!",args)
+    synthesis("Transformer model is so faster than and anyone who is residing on the earth",args)
