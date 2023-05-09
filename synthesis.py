@@ -10,7 +10,7 @@ from tqdm import tqdm
 import argparse
 
 def load_checkpoint(step, model_name="transformer"):
-    state_dict = t.load('./checkpoint/checkpoint_%s_%d.pth.tar'% (model_name, step))   
+    state_dict = t.load('./checkpoint/checkpoint_%s_%d.pth.tar'% (model_name, step),map_location = t.device('cpu'))
     new_state_dict = OrderedDict()
     for k, value in state_dict['model'].items():
         key = k[7:]
@@ -27,20 +27,20 @@ def synthesis(text, args):
 
     text = np.asarray(text_to_sequence(text, [hp.cleaners]))
     text = t.LongTensor(text).unsqueeze(0)
-    text = text.cuda()
-    mel_input = t.zeros([1,1, 80]).cuda()
+    text = text.cpu()
+    mel_input = t.zeros([1,1, 80]).cpu()
     pos_text = t.arange(1, text.size(1)+1).unsqueeze(0)
-    pos_text = pos_text.cuda()
+    pos_text = pos_text.cpu()
 
-    m=m.cuda()
-    m_post = m_post.cuda()
+    m=m.cpu()
+    m_post = m_post.cpu()
     m.train(False)
     m_post.train(False)
     
     pbar = tqdm(range(args.max_len))
     with t.no_grad():
         for i in pbar:
-            pos_mel = t.arange(1,mel_input.size(1)+1).unsqueeze(0).cuda()
+            pos_mel = t.arange(1,mel_input.size(1)+1).unsqueeze(0).cpu()
             mel_pred, postnet_pred, attn, stop_token, _, attn_dec = m.forward(text, mel_input, pos_text, pos_mel)
             mel_input = t.cat([mel_input, mel_pred[:,-1:,:]], dim=1)
 
@@ -57,4 +57,4 @@ if __name__ == '__main__':
     parser.add_argument('--max_len', type=int, help='Global step to restore checkpoint', default=400)
 
     args = parser.parse_args()
-    synthesis("Transformer model is so faster than and anyone who is residing on the earthCommit your changes and push them to GitHub as usual. Git LFS will automatically upload the large files to the Git LFS server and replace them with pointers in your Git repository.Once you have set up Git LFS for your repository, you should be able to push your large files without encountering the file size limit error.",args)
+    synthesis("Transformer model is so fast!",args)
